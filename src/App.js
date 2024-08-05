@@ -1,23 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="todo-app-container">
+      <div className="todo-app">
+        <h2>To Do</h2>
+
+        <form action="">
+          <input type="text" className="todo-input" placeholder='What do you want to do?' />
+        </form>
+
+        <ul className="todo-list">
+          <li className="todo-item-container">
+            <div className="todo-item">
+              <input type="checkbox" />
+              <span className="todo-item-label">Something urgent</span>
+              <button className='x-button'></button>
+            </div>
+          </li>
+
+
+        </ul>
+      </div>
     </div>
   );
 }
