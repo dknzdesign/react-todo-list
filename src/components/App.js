@@ -23,7 +23,7 @@ function App() {
   const addTodo = (event) => {
 
     // empty string filter
-    if (todoInput.trim().length == 0) {
+    if (todoInput.trim().length === 0) {
       return;
     }
     const newTodo = {
@@ -50,6 +50,17 @@ function App() {
     console.log('deleting: ', id);
     setTodos([...todos].filter((todo) => todo.id !== id))
   }
+  function handleCompleted(id) {
+    let newstate = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.isComplete = !todo.isComplete;//toggle
+      }
+      return todo;
+    });
+    setTodos(
+      newstate
+    );
+  }
   return (
     <div className="todo-app-container">
       <div className="todo-app">
@@ -63,9 +74,9 @@ function App() {
 
           {
             todos.map((todo, index) => (
-              <li key={todo.id} className="todo-item-container">
+              <li key={todo.id} className={`todo-item-container ${todo.isComplete ? 'line-through' : ''}`}>
                 <div className="todo-item">
-                  <input type="checkbox" />
+                  <input type="checkbox" onChange={() => handleCompleted(todo.id)} checked={todo.isComplete} />
                   <span className="todo-item-label">{todo.title}</span>
                   <button className="x-button" onClick={() => handleDelete(todo.id)}>
                     <svg
