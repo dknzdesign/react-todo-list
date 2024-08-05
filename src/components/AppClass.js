@@ -25,13 +25,27 @@ export default class AppClass extends Component {
             ]
         }
     }
+    addTodo = (event) => {
+
+
+        const newTodo = {
+            id: 4,
+            title: 'Class based components',
+            isComplete: false
+        };
+        this.setState(oldstate => {
+            return { todos: [...oldstate.todos, newTodo] }
+
+        });
+
+    }
     render() {
         return (
             <div className="todo-app-container">
                 <div className="todo-app">
                     <h2>To Do</h2>
 
-                    <form action="">
+                    <form action="#" onSubmit={this.addTodo}>
                         <input type="text" className="todo-input" placeholder='What do you want to do?' />
                     </form>
                     {/* Todo List */}
