@@ -7,17 +7,20 @@ function App() {
     {
       id: 1,
       title: 'Finish this app!',
-      isComplete: false
+      isComplete: false,
+      isEditing: false
     },
     {
       id: 2,
       title: 'Publish on Github',
-      isComplete: false
+      isComplete: false,
+      isEditing: false
     },
     {
       id: 3,
       title: 'Fend off recruiters wanting to hire me.',
-      isComplete: false
+      isComplete: false,
+      isEditing: false
     }
   ]);
   const addTodo = (event) => {
@@ -29,7 +32,8 @@ function App() {
     const newTodo = {
       id: currentId,
       title: todoInput,
-      isComplete: false
+      isComplete: false,
+      isEditing: false
     };
     //console.log(event.target);
     setCurrentId((id) => id + 1);
@@ -61,6 +65,39 @@ function App() {
       newstate
     );
   }
+  function handleEditing(id) {
+    console.log('Editing mode for :', id);
+    let newstate = todos.map((todo) => {
+      if (todo.id === id) {
+        todo.isEditing = !todo.isEditing;//toggle
+      }
+      return todo;
+    });
+    setTodos(
+      newstate
+    );
+  }
+  function handleUpdateTodo(event, id) {
+    // empty string filte
+
+    let newstate = todos.map((todo) => {
+      if (todo.id === id) {
+        // if empty return old value
+        if (event.target.value.trim().length === 0) {
+          console.log('empty values not permitted');
+        } else {
+          todo.title = event.target.value;
+
+        }
+        todo.isEditing = !todo.isEditing;//toggle editing and grab event
+
+      }
+      return todo;
+    });
+    setTodos(
+      newstate
+    );
+  }
   return (
     <div className="todo-app-container">
       <div className="todo-app">
@@ -77,7 +114,14 @@ function App() {
               <li key={todo.id} className={`todo-item-container ${todo.isComplete ? 'line-through' : ''}`}>
                 <div className="todo-item">
                   <input type="checkbox" onChange={() => handleCompleted(todo.id)} checked={todo.isComplete} />
-                  <span className="todo-item-label">{todo.title}</span>
+                  {!todo.isEditing && (
+                    <span className="todo-item-label" onDoubleClick={() => handleEditing(todo.id)}>{todo.title}</span>
+                  )}
+
+                  {todo.isEditing && (
+                    <input className="todo-item-input" defaultValue={todo.title} autoFocus onBlur={(event) => handleUpdateTodo(event, todo.id)} onKeyDown={(event) => { if (event.key === 'Enter') { handleUpdateTodo(event, todo.id); } else if (event.key === 'Escape') { handleEditing(todo.id); } }} />
+                  )}
+
                   <button className="x-button" onClick={() => handleDelete(todo.id)}>
                     <svg
                       className="x-button-icon"
