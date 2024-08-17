@@ -9,14 +9,14 @@ function App() {
   const [todos, setTodos] = useState([
     {
       id: 1,
-      title: 'Finish this app!',
+      title: 'Finish this app',
       isComplete: false,
       isEditing: false
     },
     {
       id: 2,
       title: 'Publish on Github',
-      isComplete: false,
+      isComplete: true,
       isEditing: false
     },
     {
