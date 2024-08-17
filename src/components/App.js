@@ -95,7 +95,7 @@ function App() {
   return (
     <div className="todo-app-container">
       <div className="todo-app">
-        <h2>To Do List</h2>
+        <h1>To Do List</h1>
 
         <TodoForm addTodo={addTodo} />
         {/* Todo List */}
@@ -106,6 +106,7 @@ function App() {
             handleEditing={handleEditing}
             handleDelete={handleDelete}
             handleUpdateTodo={handleUpdateTodo}
+            setTodos={setTodos}
           />
 
         ) : (
