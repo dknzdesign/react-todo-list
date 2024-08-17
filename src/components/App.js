@@ -1,11 +1,24 @@
 import '../App.css';
-import { useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import NoTodos from './NoTodos';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
 
 
 function App() {
+  useEffect(() => {
+    console.log('This component was mounted');
+    nameInputEl.current.focus();
+  }, []);//returning an empty array means this will only occur on mount but nor this components update
+  //another useeffect
+
+  useEffect(() => {
+    console.log('This component was mounted');
+    return () => { console.log('UNMOUNTED'); }
+  }, []);//returning an empty array means this will only occur on mount but nor this components update
+
+
+
   const [todos, setTodos] = useState([
     {
       id: 1,
@@ -39,11 +52,14 @@ function App() {
 
   }
 
-
-
-
-
+  const [name, setName] = useState('');
   const [currentId, setCurrentId] = useState(4);
+  const nameInputEl = useRef(null);
+  function handleNameUpdate(event) {
+    event.preventDefault();
+    setName(event.target.value);
+  }
+
   function handleDelete(id) {
     console.log('deleting: ', id);
     setTodos([...todos].filter((todo) => todo.id !== id))
@@ -95,6 +111,23 @@ function App() {
   return (
     <div className="todo-app-container">
       <div className="todo-app">
+        <div className="name-container">
+          <h2>What is your name?</h2>
+          {/* <button onClick={() => nameInputEl.current.focus()}>get ref</button> */}
+          <form action="#">
+            <input
+              type="text"
+              ref={nameInputEl}
+              className="todo-input"
+              placeholder='What is your name?'
+              onChange={handleNameUpdate}
+            />
+          </form>
+          {name !== '' && (
+            <div className="name-label">Hi {name}!</div>
+          )}
+
+        </div>
         <h1>To Do List</h1>
 
         <TodoForm addTodo={addTodo} />
